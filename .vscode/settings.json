@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-playbook.json": [
+            "docker://1c581b3246347732edf0f43bdbfd9876ec66ce428919bc69362c5097522bfec3/work/router_config/playbook.yml?fileType%3Dfile%26containerOS%3Dlinux%26path%3D%252Fwork%252Frouter_config%252Fplaybook.yml",
+            "docker://1c581b3246347732edf0f43bdbfd9876ec66ce428919bc69362c5097522bfec3/work/router_config/playbookF5balancer.yml?fileType%3Dfile%26containerOS%3Dlinux%26path%3D%252Fwork%252Frouter_config%252FplaybookF5balancer.yml"
+        ]
+    }
+}

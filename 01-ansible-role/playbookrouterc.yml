@@ -1,0 +1,62 @@
+---
+- name: Get facts 
+  hosts: cisco
+  gather_facts: no
+
+  tasks:
+  #Used to generate a banner appearing on router login
+    - name: Configure the login banner
+      cisco.ios.ios_banner:
+          banner: login
+          text: |
+            Welcome to Router C
+          state: present
+
+  #Used to configure a loopback address on the defined host
+    - name: Set loopback IPv4 address
+      cisco.ios.ios_l3_interface:
+          name: loopback0
+          ipv4: 3.3.3.3/32
+
+  #Used to configure an IPv4 address on a specified interface       
+    - name: Set GigabitEthernet2 IPv4 address
+      cisco.ios.ios_l3_interface:
+          name: GigabitEthernet2
+          ipv4: 172.31.36.6/20  
+
+  #Used to configure bring an interface to an up state (no shutdown command)            
+    - name: make interface up
+      ios_interface:
+        name: GigabitEthernet1
+        enabled: True
+    - name: make interface up
+      ios_interface:
+        name: GigabitEthernet2
+        enabled: True 
+
+  #Configures name server using defined values     
+    - name: configure name servers
+      cisco.ios.ios_system:
+          name_servers:
+          - 8.8.8.8
+          - 8.8.4.4  
+
+  #Displays various host device facts               
+    - name: Display Cisco Info
+      cisco.ios.ios_facts:
+        gather_subset: all    
+    - name: Display Serial Verion
+      debug:
+        msg: "The Serial is {{ansible_net_serialnum}}"
+    - name: Display Version number 
+      debug:
+        msg: "The IOS Version is {{ansible_net_version}}"
+    - name: Display Model number 
+      debug:
+        msg: "The IOS model is {{ansible_net_model}}"
+    - name: Display Interface 1 info 
+      debug:
+        msg: "The GigabitEthernet1 interface is: {{ansible_net_interfaces.GigabitEthernet1.lineprotocol}}, and the ip address is {{ansible_net_interfaces.GigabitEthernet1.ipv4}}"
+    - name: Display Interface 2 info
+      debug:
+        msg: "The GigabitEthernet2 interface is: {{ansible_net_interfaces.GigabitEthernet2.lineprotocol}}, and the ip address is {{ansible_net_interfaces.GigabitEthernet2.ipv4}}"
