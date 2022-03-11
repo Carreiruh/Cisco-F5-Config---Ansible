@@ -1,0 +1,7 @@
+---
+# vars file for configure-router
+# Configures interface on router with IPv4 address
+router_vars:
+  interface_names: "Gigabitethernet2"
+  descrip: "Peer Interface for testing only"
+  IP4_ADDR: "10.10.20.1/29"

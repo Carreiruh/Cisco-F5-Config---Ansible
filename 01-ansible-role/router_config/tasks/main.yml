@@ -1,0 +1,8 @@
+---
+# tasks file for router_config
+- name: Configure Router interfaces
+  ios_config:
+    src: templates/router_interface.j2
+    authorize: yes
+  with_items:
+    - "{{ router_vars }}"
