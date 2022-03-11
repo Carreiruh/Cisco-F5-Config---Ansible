@@ -1,0 +1,59 @@
+---
+
+- name: Create a VIP, pool and pool members
+  hosts: all
+  connection: local
+
+  vars:
+    provider:
+      password: adminpassword123
+      server: 172.31.16.8
+      user: root
+      validate_certs: no
+      server_port: 443
+
+  tasks:
+    # creates a target pool for our other devices to be balanced
+    - name: Create pool
+      bigip_pool:
+        state: present
+        name: ciscopool
+        partition: Common
+        lb_method: least-connections-member
+        slow_ramp_time: 120
+        provider:
+          server: lb.mydomain.com
+          user: root
+          password: adminpassword123
+          transport: cli 
+      delegate_to: localhost
+    - name: Modify load balancer method
+
+    #Changes the LB algorithm
+      bigip_pool:
+        state: present
+        name: ciscopool
+        partition: Common
+        lb_method: round-robin
+        provider:
+          server: lb.mydomain.com
+          user: root
+          password: adminpassword123
+          transport: cli 
+      delegate_to: localhost  
+
+    #adds metadata to the defined pool
+    - name: Add metadata to pool
+      bigip_pool:
+        state: present
+        name: ciscopool
+        partition: Common
+        metadata:
+          ansible: 2.4
+          updated_at: 2022-11-20T17:50:46Z
+        provider:
+          server: lb.mydomain.com
+          user: root
+          password: adminpassword123
+          transport: cli 
+      delegate_to: localhost
